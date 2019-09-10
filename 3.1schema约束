@@ -1,0 +1,71 @@
+比较新的约束，而且比dta约束更加复杂
+
+schema约束将标签分为两种
+  简单标签：没有子标签  没有属性
+  复杂标签：有子标签   有属性
+  
+  
+用element修饰标签
+用attribute修饰属性
+ <attribute name="bid" type="int" use="optional"></attribute>
+    name: 属性的名字
+    type: 属性值的类型
+  use: 属性值的设置
+    prohibited:必须不能有属性
+    required:必须有属性值
+    optional: 可以有属性值 也可以没有
+ 
+ maxOccurs:最多有几个子标签
+ minOccurs:最少有几个子标签
+
+
+
+
+
+
+例子：约束xml文件
+<?xml version="1.0" encoding="UTF-8"?>
+<books xmlns="http://www.example.org/schemaText"
+xsi:schemaLocation="http://www.example.org/schemaText schemaText.xsd"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+>
+	<book id="box">
+		<name>Java编程思想</name>
+		<author>James</author>
+		<price>109</price>
+	</book>
+	
+	<book id="box">
+		<name>Java编程思想</name>
+		<author>James</author>
+		<price>109</price>
+	</book>
+	
+</books>
+
+
+约束
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+targetNamespace="http://www.example.org/schemaText" 
+xmlns:tns="http://www.example.org/schemaText" 
+elementFormDefault="qualified">
+
+<element name="books">
+	<complexType>
+		<sequence>
+			<element name="book" minOccurs="2" maxOccurs="5">
+				<complexType>
+					<sequence>
+						<element name="name"></element>
+						<element name="author"></element>
+						<element name="price"></element>
+					</sequence>
+					<attribute name="id" type="string"></attribute>
+				</complexType>
+			</element>
+		</sequence>
+		
+	</complexType>
+</element>
+</schema>
