@@ -1,0 +1,107 @@
+解析方式：
+  Dom解析
+    一次性读取到内存
+      解析速度比较慢
+      容易出现内容溢出
+  Sax解析
+    一边读取一边解析
+      解析速度比较慢
+      不容易出现内存溢出
+      
+      
+XML工具
+  jaxp: sun公司开发    做的比较失败   谁也不用
+  
+  jdom：一群精英一起研发的解析工具
+  
+  Dom4j：分离出的一群精英在jdom的基础上升级的版本（sun公司都在使用）
+  
+  
+  
+  Dom4j解析
+  1.导入jar包
+  2.准备好被解析的xml文件
+  3.创建核心对象、解析xml文件
+  
+  
+  
+  
+  解析的person。xml文件
+  <?xml version="1.0" encoding="UTF-8"?>
+<persons>
+    <person id='p001'>
+      <name>张三</name>
+    </person>
+    <person id="p002">
+      <name class="box">李四</name>
+    </person>
+    <person id="p002">
+      <name class="box">
+      <idcard>1234567890</idcard>
+      </name>
+    </person>
+</persons>
+
+
+
+Dom4j解析
+
+@Test
+	public void test1() throws Exception{
+		
+		//创建DOM4j的核心对象
+		SAXReader reader = new SAXReader();
+		
+		//读取需要被解析的xml文件
+        Document document = (Document) reader.read("WebContent/dom4j/person.xml");
+        
+        //获取xml整个文档对象的根元素
+       /* Element rootElement = document.getRootElement();
+        List elements = rootElement.elements();
+        Element element = (Element) elements.get(1);*/
+        
+        //获取id的内容
+       // String value = element.attributeValue("id");
+       // System.out.println(value);
+        
+        //获取class="box"
+        Element node = (Element)document.selectSingleNode("//name[@class]");
+        String value = node.attributeValue("class");
+        System.out.println(value);
+         
+	}
+
+}
+
+
+Xpath路径工具
+
+Xpath：一种在XML文档中快速查找信息的语言
+
+Dom4j给Xpath路径文件提供了两个方法
+selectNodes("url")
+selectSingleNode("url")
+
+
+@Test
+	public void test2() throws Exception{
+		SAXReader saxReader = new SAXReader();
+		
+		Document document = saxReader.read("WebContent/dom4j/person.xml");
+		
+		//获取子标签中的的子标签中的文本内容
+		Element node = (Element) document.selectSingleNode("//name/idcard");
+		String value = node.attributeValue("idcard");
+		String value2 = node.getStringValue();
+		System.out.println(value2);
+		
+	}
+
+}
+
+
+
+
+
+
+
