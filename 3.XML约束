@@ -1,0 +1,83 @@
+DTD:稍微久一点的约束，学习成本比较低，有部分框架的配置文件还在使用的DTD约束
+
+schema：新的约束，学习成本高，很多新的框架的配置文件都是使用的schema
+
+
+DTD
+<!ELEMENT 元素名称  内容>  修饰标签的格式
+内容
+  标签
+  文本值
+针对标签和文本值有相应的修饰
+
+标签
+         +：相应的子标签有 大于等于1个。
+         *：可以有子元素 也可以没有子元素
+         ？:可以有0个或者1个子元素
+         |：选择
+        （）：分组   
+文本值修饰
+(#PCDATA)：简单的理解为可以写除了标签之外的文本内容
+          ANY：我们可以在开始标签和结束标签之间写任意内容
+          EMPTY：只能为空
+
+属性修饰
+ <!ATTLIST book bid CDATA #REQUIRED>
+<!ATTLIST 标签 标签的属性 值 类别>
+  CDATA     值为字符数据
+  en1|en2）   此值是枚举列表中的一个值
+  ID        唯一的id
+  
+  
+  值             属性的默认值
+  #REQUIRED     属性值是必须的
+  #IMPLIED      属性不是必须的
+  #FIXED value  属性值是固定的
+
+
+
+
+
+<!DOCTYPE books [
+   约束内容
+]>
+    *<!DOCTYPE books SYSTEM "本地约束的地址">
+*<!DOCTYPE books PUBLIC  "约束的名字" "地址">     网络地址
+
+
+
+
+Eg:
+
+<?xml version="1.0"?>
+<!DOCTYPE note [
+  <!ELEMENT note (to,from,heading,body)>
+  <!ELEMENT to      (#PCDATA)>
+  <!ELEMENT from    (#PCDATA)>
+  <!ELEMENT heading (#PCDATA)>
+  <!ELEMENT body    (#PCDATA)>
+]>
+<note>
+  <to>George</to>
+  <from>John</from>
+  <heading>Reminder</heading>
+  <body>Don't forget the meeting!</body>
+</note>
+
+
+
+
+
+
+外链式：
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT books (book*)>
+<!ELEMENT book      ((name|content),author,price,num)>
+<!ELEMENT name   (#PCDATA)>
+<!ELEMENT content (#PCDATA)>
+<!ELEMENT author (#PCDATA)>
+<!ELEMENT price    (#PCDATA)>
+<!ELEMENT num    (#PCDATA)>
+<!ATTLIST book bid CDATA #FIXED "box">
+
+
