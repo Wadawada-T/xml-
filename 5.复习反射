@@ -1,0 +1,87 @@
+程序运行状态下，我们可以操作相应属性和方法
+
+
+@Test
+	public void getCla() throws Exception{
+		//方法一
+		Class c1 =  Text01.class;
+		//方法二
+		Text01 text01 = new Text01();
+		Class c2 = text01.getClass();
+		//方法三
+		Class c3 = Class.forName("/Day11/src/com/offcn/reflect/Text01.java");
+	}
+	
+	@Test
+	//获取普通的成员变量
+	public void getNam() throws Exception{
+		Class c3 = Text01.class;
+		Text01 obj = (Text01)c3.newInstance();//创建对象
+		Field field = c3.getField("name");
+		field.set(obj, "asdas");
+		System.out.println(obj.getName());
+		
+	}
+	
+	@Test
+	//获取私有的成员变量
+	public void getNam2()throws Exception{
+		Class c3 = Text01.class;
+		Text01 obj = (Text01) c3.newInstance();
+		Field field = c3.getDeclaredField("name");
+		field.setAccessible(true);
+		field.set(obj, "zhangsan");
+		System.out.println(obj.getName());
+		
+	}
+	
+	@Test
+	//获取公有的成员方法
+	public void getMeth() throws Exception{
+		Class<Text01> c3 = Text01.class;
+		Text01 newInstance = (Text01) c3.newInstance();
+		
+		Method method = c3.getMethod("eat");
+		method.invoke(newInstance);
+	}
+	
+	@Test
+	public void getMeth2() throws Exception{
+		Class<Text01> c3 = Text01.class;
+		Text01 newInstance = c3.newInstance();
+		
+		Method method = c3.getDeclaredMethod("eat", String.class);
+		method.setAccessible(true);
+		method.invoke(newInstance, "Lucky");
+	}
+		
+
+}
+
+
+
+
+
+
+
+成员变量，私有的成员变量，成员方法，私有的成员方法
+
+public String name;
+		
+		public  void eat(){
+			System.out.println("吃吃吃");
+		}
+		
+		private void eat(String age){
+			System.out.println(age+"123");
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+}
